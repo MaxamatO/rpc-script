@@ -1,8 +1,8 @@
 import json
 import paho.mqtt.client as mqtt
 MQTT_TOPIC_ANOTHER = "udalo/sie/request"
-MQTT_HOST = "165.232.98.202"
-MQTT_PORT = 1883
+MQTT_HOST = "IP"
+MQTT_PORT = "PORT"
 MQTT_TOPIC_BOX = "uuid/7a2d934f-a373-4b2f-83ab-6593ce5a4f6b/request"
 
 response_functions = {
