@@ -2,11 +2,17 @@ import json
 import paho.mqtt.client as mqtt
 from helpers.rpc_classes import RpcRequest, RpcResponse, _RequestData, _ResponseData
 from helpers.commands import Commands
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
-MQTT_TOPIC_ANOTHER = "udalo/sie/request"
-MQTT_HOST = "IP"
-MQTT_PORT = "PORT"
+MQTT_HOST = os.environ.get("MQTT_HOST")
+MQTT_PORT = int(os.environ.get("MQTT_PORT"))
+MQTT_USERNAME=os.environ.get("MQTT_USERNAME")
+MQTT_PASSWORD=os.environ.get("MQTT_PASSWORD")
+
 MQTT_TOPIC_BOX = "rpc/7a2d934f-a373-4b2f-83ab-6593ce5a4f6b/request"
+MQTT_TOPIC_ANOTHER = "udalo/sie/request"
 
 response_functions = {
     MQTT_TOPIC_BOX: lambda json_payload, topic: handle_topic_box(json_payload, topic),
@@ -55,6 +61,7 @@ def on_message(client, userdata, message):
 client_mqtt = mqtt.Client()
 client_mqtt.on_message = on_message
 client_mqtt.on_publish = on_publish
+client_mqtt.username_pw_set(MQTT_USERNAME, MQTT_PASSWORD)
 client_mqtt.connect(MQTT_HOST, MQTT_PORT, 60)
 
 client_mqtt.subscribe([(MQTT_TOPIC_BOX,2), (MQTT_TOPIC_ANOTHER, 2)])
